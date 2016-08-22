@@ -8,6 +8,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import de.robindev.spleef.commands.SetspawnCommand;
+import de.robindev.spleef.listener.AsyncPlayerChatEventListener;
 import de.robindev.spleef.listener.BlockBreakEventListener;
 import de.robindev.spleef.listener.BlockPlaceEventListener;
 import de.robindev.spleef.listener.CreatureSpawnEventListener;
@@ -19,6 +20,7 @@ import de.robindev.spleef.listener.PlayerJoinEventListener;
 import de.robindev.spleef.listener.PlayerPickupItemEventListener;
 import de.robindev.spleef.listener.PlayerQuitEventListener;
 import de.robindev.spleef.manager.LocationManager;
+import de.robindev.spleef.manager.ScoreboardManager;
 
 public class Spleef extends JavaPlugin {
 	
@@ -34,6 +36,8 @@ public class Spleef extends JavaPlugin {
 	
 	@Override
 	public void onEnable() {
+		ScoreboardManager.init();
+		
 		state = GameState.WAITING;
 		
 		taskID = 0;
@@ -63,6 +67,7 @@ public class Spleef extends JavaPlugin {
 		getServer().getPluginManager().registerEvents(new PlayerDropItemEventListener(), this);
 		getServer().getPluginManager().registerEvents(new PlayerPickupItemEventListener(), this);
 		getServer().getPluginManager().registerEvents(new InventoryClickEventListener(), this);
+		getServer().getPluginManager().registerEvents(new AsyncPlayerChatEventListener(), this);
 		
 		System.out.println("Spleef >> Plugin geladen!");
 	}

@@ -1,6 +1,7 @@
 package de.robindev.spleef.listener;
 
 import org.bukkit.Bukkit;
+import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -10,7 +11,11 @@ import de.robindev.spleef.GameState;
 import de.robindev.spleef.Spleef;
 import de.robindev.spleef.manager.GameStateManager;
 import de.robindev.spleef.manager.LocationManager;
+import de.robindev.spleef.manager.ScoreboardManager;
 import de.robindev.spleef.util.PlayerUtil;
+import net.minecraft.server.v1_8_R3.IChatBaseComponent;
+import net.minecraft.server.v1_8_R3.PacketPlayOutChat;
+import net.minecraft.server.v1_8_R3.IChatBaseComponent.ChatSerializer;
 
 public class PlayerJoinEventListener implements Listener {
 
@@ -23,7 +28,17 @@ public class PlayerJoinEventListener implements Listener {
 	@EventHandler
 	public void onPlayerJoin(PlayerJoinEvent event) {
 		Player player = event.getPlayer();
-
+		
+		ScoreboardManager.playersTeam.addEntry(player.getName());
+		
+		Bukkit.getOnlinePlayers().stream().forEach(all -> {
+			all.setScoreboard(ScoreboardManager.scoreboard);
+		});
+		
+		PacketPlayOutChat packetChat = new PacketPlayOutChat(getIChatBaseComponent("§aDu §7bist der §e" 
+	+ Bukkit.getOnlinePlayers().size() + ". §7von §e" + Bukkit.getServer().getMaxPlayers() + " §7Spielern" ), (byte) 2);
+		((CraftPlayer) player).getHandle().playerConnection.sendPacket(packetChat);
+		
 		player.teleport(LocationManager.getSpawn());
 		
 		PlayerUtil.readyPlayer(player);
@@ -84,5 +99,9 @@ public class PlayerJoinEventListener implements Listener {
 				}, 20, 20);
 			}
 		}
+	}
+
+	private IChatBaseComponent getIChatBaseComponent(String msg) {
+		return ChatSerializer.a("{\"text\": \"" + msg + "\"}");
 	}
 }
