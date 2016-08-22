@@ -1,0 +1,9 @@
+main: de.robindev.spleef.Spleef
+name: Spleef
+author: RobinDEV
+version: 1.0
+
+commands:
+  setspawn:
+    description: Setzt den Spawn an deiner Position
+    
