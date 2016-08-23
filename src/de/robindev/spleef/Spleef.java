@@ -121,7 +121,7 @@ public class Spleef extends JavaPlugin {
 		getServer().getPluginManager().registerEvents(new InventoryClickEventListener(), this);
 		getServer().getPluginManager().registerEvents(new AsyncPlayerChatEventListener(), this);
 		getServer().getPluginManager().registerEvents(new PlayerMoveEventListener(), this);
-		getServer().getPluginManager().registerEvents(new PlayerDeathEventListener(), this);
+		getServer().getPluginManager().registerEvents(new PlayerDeathEventListener(this), this);
 		getServer().getPluginManager().registerEvents(new PlayerRespawnEventListener(), this);
 		
 		// Debug-Nachricht, um zu sehen ob alles glatt gegangen ist.
