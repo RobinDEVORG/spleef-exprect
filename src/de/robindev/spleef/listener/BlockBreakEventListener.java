@@ -1,5 +1,6 @@
 package de.robindev.spleef.listener;
 
+import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
@@ -36,7 +37,12 @@ public class BlockBreakEventListener implements Listener {
 	public void onBlockBreak(BlockBreakEvent event) {
 		Player player = event.getPlayer();
 		Block block = event.getBlock();
-
+		
+		if (player.getGameMode().equals(GameMode.CREATIVE)) {
+			event.setCancelled(false);
+			return;
+		}
+		
 		// Wenn das GameState nicht GameState.INGAME ODER der Spieler raus
 		// ist, "BlockBreakEvent" cancellen und returnen
 		if (!Spleef.state.equals(GameState.INGAME) || !Spleef.playerData.contains(player.getName())) {
