@@ -17,10 +17,13 @@ import de.robindev.spleef.Spleef;
 public class GameStateManager {
 
 	public static void setup(Spleef main, GameState state) {
-		// Hier habe ich einen "switch-case-block" gewählt, der übersichts halber
+		// Hier habe ich einen "switch-case-block" gewählt, der übersicht halber
 		switch (state) {
 		case WAITING:
 			Spleef.state = GameState.WAITING;
+			
+			Spleef.winner = "";
+			
 			// Hier aus dem "switch-case-block" raus gehen
 			break;
 
@@ -75,9 +78,11 @@ public class GameStateManager {
 			
 			Spleef.destroyedBlocks.clear();
 			
-			Bukkit.getOnlinePlayers().stream().forEach(player -> {
-				player.kickPlayer("§cDas Spiel ist vorbei.");
-			});
+			Bukkit.getScheduler().scheduleSyncDelayedTask(main, () -> {
+				Bukkit.getOnlinePlayers().stream().forEach(player -> {
+					player.kickPlayer("§cDas Spiel ist vorbei. §a" + Spleef.winner + " §bhat gewonnen.");
+				});
+			}, 20 * 10);
 			
 			Spleef.playerData.clear();
 			

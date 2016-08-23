@@ -49,7 +49,7 @@ public class BlockBreakEventListener implements Listener {
 			event.setCancelled(true);
 			return;
 		}
-
+		
 		if (!block.getType().equals(Material.SNOW_BLOCK)) {
 			event.setCancelled(true);
 		} else if (block.getType().equals(Material.SNOW_BLOCK)) {

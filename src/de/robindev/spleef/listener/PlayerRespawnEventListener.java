@@ -15,7 +15,7 @@ public class PlayerRespawnEventListener implements Listener {
 	
 	@EventHandler
 	public void onPlayerRespawn(PlayerRespawnEvent event) {
-		// Respawn-Location auf den Spawn setzen
+		// Respawn-Location auf die Map setzen
 		event.setRespawnLocation(LocationManager.map);
 	}
 }

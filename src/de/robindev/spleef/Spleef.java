@@ -69,6 +69,11 @@ public class Spleef extends JavaPlugin {
 	 */
 	public static GameState state;
 	
+	/**
+	 * Der Gewinner der Runde
+	 */
+	public static String winner;
+	
 	@Override
 	public void onEnable() {
 		// Initialisiert den ScoreboardManager
