@@ -10,6 +10,6 @@ public class AsyncPlayerChatEventListener implements Listener {
 	@EventHandler
 	public void onAsyncPlayerChatEvent(AsyncPlayerChatEvent event) {
 		Player player = event.getPlayer();
-		event.setFormat("§7" + player.getName() + "§8: §7" + event.getMessage());
+		event.setFormat("§7" + player.getName() + " §8>> §7" + event.getMessage());
 	}
 }

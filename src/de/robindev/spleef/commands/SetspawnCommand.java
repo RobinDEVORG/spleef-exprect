@@ -18,7 +18,7 @@ public class SetspawnCommand extends AbstractPlayerCommand {
 			if (LocationManager.setSpawn(playerLocation)) {
 				player.sendMessage(Spleef.PREFIX + "§bDer Spawn wurde erfolgreich an deiner Position gesetzt.");
 			} else {
-				player.sendMessage(Spleef.PREFIX + "§cWährend des setzens des Spawn an deiner Position ist ein Fehler aufgetreten. Siehe Server-Konsole");
+				player.sendMessage(Spleef.PREFIX + "§cWährend des setzens des Spawns an deiner Position ist ein Fehler aufgetreten. Siehe Server-Konsole");
 			}
 		}
 		

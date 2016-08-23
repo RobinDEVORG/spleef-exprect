@@ -14,8 +14,8 @@ import de.robindev.spleef.manager.LocationManager;
 import de.robindev.spleef.manager.ScoreboardManager;
 import de.robindev.spleef.util.PlayerUtil;
 import net.minecraft.server.v1_8_R3.IChatBaseComponent;
-import net.minecraft.server.v1_8_R3.PacketPlayOutChat;
 import net.minecraft.server.v1_8_R3.IChatBaseComponent.ChatSerializer;
+import net.minecraft.server.v1_8_R3.PacketPlayOutChat;
 
 public class PlayerJoinEventListener implements Listener {
 
