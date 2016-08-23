@@ -14,7 +14,11 @@ public class PlayerQuitEventListener implements Listener {
 	public void onPlayerQuit(PlayerQuitEvent event) {
 		Player player = event.getPlayer();
 		
-		event.setQuitMessage(Spleef.PREFIX + "§a" + player.getName() + " §bhat das Spiel verlassen (§8" + Bukkit.getOnlinePlayers().size() + "§7/§8" + Bukkit.getServer().getMaxPlayers() + "§b).");
+		int size = Bukkit.getOnlinePlayers().size() - 1;
+		
+		Spleef.playerData.remove(player.getName());
+		
+		event.setQuitMessage(Spleef.PREFIX + "§a" + player.getName() + " §bhat das Spiel verlassen (§8" + size + "§7/§8" + Bukkit.getServer().getMaxPlayers() + "§b).");
 	}
 
 }
