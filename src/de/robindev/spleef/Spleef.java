@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.bukkit.Bukkit;
-import org.bukkit.block.Block;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import de.robindev.spleef.commands.SetspawnCommand;
@@ -48,11 +47,6 @@ public class Spleef extends JavaPlugin {
 	 * Diese Liste speichert die Spieler, die NICHT tot sind
 	 */
 	public static final List<String> playerData = new ArrayList<>();
-	
-	/**
-	 * Diese Liste wird für den Map-Reset gebraucht.
-	 */
-	public static final List<String> blockChanges = new ArrayList<>();
 	
 	/**
 	 * Für den Start countdown. Von "currentTick" wird jede Sekunde 1 abgezogen

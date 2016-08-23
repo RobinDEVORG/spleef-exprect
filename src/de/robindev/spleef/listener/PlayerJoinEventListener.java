@@ -115,7 +115,7 @@ public class PlayerJoinEventListener implements Listener {
 
 						// Sind die Sekunden auf 50, 40, 30, 20 oder kleiner als
 						// 11?
-						if (Spleef.currentTick == 50 || Spleef.currentTick == 40 || Spleef.currentTick == 30 || Spleef.currentTick == 20 || Spleef.currentTick <= 10) {
+						if (Spleef.currentTick == 50 || Spleef.currentTick == 40 || Spleef.currentTick == 30 || Spleef.currentTick == 20 || Spleef.currentTick == 10 || Spleef.currentTick <= 5) {
 							// Falls ja, broadcaste eine Nachricht mit der
 							// aktuellen Zeit
 							Bukkit.broadcastMessage(Spleef.PREFIX + "§bDas Spiel beginnt in §a" + Spleef.currentTick + " §bSekunden");
