@@ -18,10 +18,13 @@ import de.robindev.spleef.listener.CreatureSpawnEventListener;
 import de.robindev.spleef.listener.EntityDamageEventListener;
 import de.robindev.spleef.listener.FoodLevelChangeEventListener;
 import de.robindev.spleef.listener.InventoryClickEventListener;
+import de.robindev.spleef.listener.PlayerDeathEventListener;
 import de.robindev.spleef.listener.PlayerDropItemEventListener;
 import de.robindev.spleef.listener.PlayerJoinEventListener;
+import de.robindev.spleef.listener.PlayerMoveEventListener;
 import de.robindev.spleef.listener.PlayerPickupItemEventListener;
 import de.robindev.spleef.listener.PlayerQuitEventListener;
+import de.robindev.spleef.listener.PlayerRespawnEventListener;
 import de.robindev.spleef.manager.LocationManager;
 import de.robindev.spleef.manager.ScoreboardManager;
 
@@ -79,18 +82,28 @@ public class Spleef extends JavaPlugin {
 		taskID = 0;
 		// Die Wartezeit auf 60 Sekunden setzen
 		currentTick = 60;
-
-		// Standardwerte für den Spawn setzen
-		LocationManager.DATA.addDefault("Spawn.World", Bukkit.getWorlds().get(0).getName());
-		LocationManager.DATA.addDefault("Spawn.X", Bukkit.getWorlds().get(0).getSpawnLocation().getX());
-		LocationManager.DATA.addDefault("Spawn.Y", Bukkit.getWorlds().get(0).getSpawnLocation().getY());
-		LocationManager.DATA.addDefault("Spawn.Z", Bukkit.getWorlds().get(0).getSpawnLocation().getZ());
-		LocationManager.DATA.addDefault("Spawn.Yaw", Bukkit.getWorlds().get(0).getSpawnLocation().getYaw());
-		LocationManager.DATA.addDefault("Spawn.Pitch", Bukkit.getWorlds().get(0).getSpawnLocation().getPitch());
+		
+		// Standardwerte für die Lobby setzen
+		LocationManager.DATA.addDefault("Lobby.World", Bukkit.getWorlds().get(0).getName());
+		LocationManager.DATA.addDefault("Lobby.X", Bukkit.getWorlds().get(0).getSpawnLocation().getX());
+		LocationManager.DATA.addDefault("Lobby.Y", Bukkit.getWorlds().get(0).getSpawnLocation().getY());
+		LocationManager.DATA.addDefault("Lobby.Z", Bukkit.getWorlds().get(0).getSpawnLocation().getZ());
+		LocationManager.DATA.addDefault("Lobby.Yaw", Bukkit.getWorlds().get(0).getSpawnLocation().getYaw());
+		LocationManager.DATA.addDefault("Lobby.Pitch", Bukkit.getWorlds().get(0).getSpawnLocation().getPitch());
+		
+		// Standardwerte für die Map setzen
+		LocationManager.DATA.addDefault("Map.World", Bukkit.getWorlds().get(0).getName());
+		LocationManager.DATA.addDefault("Map.X", Bukkit.getWorlds().get(0).getSpawnLocation().getX());
+		LocationManager.DATA.addDefault("Map.Y", Bukkit.getWorlds().get(0).getSpawnLocation().getY());
+		LocationManager.DATA.addDefault("Map.Z", Bukkit.getWorlds().get(0).getSpawnLocation().getZ());
+		LocationManager.DATA.addDefault("Map.Yaw", Bukkit.getWorlds().get(0).getSpawnLocation().getYaw());
+		LocationManager.DATA.addDefault("Map.Pitch", Bukkit.getWorlds().get(0).getSpawnLocation().getPitch());
 		
 		// Standardwerte speichern
 		try {
 			LocationManager.DATA.save(LocationManager.FILE);
+			LocationManager.updateLobby();
+			LocationManager.updateMap();
 		} catch (IOException e) {
 		}
 		
@@ -109,6 +122,9 @@ public class Spleef extends JavaPlugin {
 		getServer().getPluginManager().registerEvents(new PlayerPickupItemEventListener(), this);
 		getServer().getPluginManager().registerEvents(new InventoryClickEventListener(), this);
 		getServer().getPluginManager().registerEvents(new AsyncPlayerChatEventListener(), this);
+		getServer().getPluginManager().registerEvents(new PlayerMoveEventListener(), this);
+		getServer().getPluginManager().registerEvents(new PlayerDeathEventListener(), this);
+		getServer().getPluginManager().registerEvents(new PlayerRespawnEventListener(), this);
 		
 		// Debug-Nachricht, um zu sehen ob alles glatt gegangen ist.
 		System.out.println("Spleef >> Plugin geladen!");

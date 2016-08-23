@@ -43,8 +43,8 @@ public class GameStateManager {
 			Bukkit.getOnlinePlayers().stream().forEach(p -> {
 				// Inventar von allen leeren
 				p.getInventory().clear();
-				// Alle wieder zum Spawn teleportieren
-				p.teleport(LocationManager.getSpawn());
+				// Alle zur Map teleportieren
+				p.teleport(LocationManager.map);
 				// Die Schaufel ins Inventar legen
 				p.getInventory().setItem(0, shovel);
 			});

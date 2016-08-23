@@ -66,7 +66,7 @@ public class PlayerJoinEventListener implements Listener {
 		((CraftPlayer) player).getHandle().playerConnection.sendPacket(packetChat);
 		
 		// Spieler zum Spawn teleportieren
-		player.teleport(LocationManager.getSpawn());
+		player.teleport(LocationManager.lobby);
 		
 		// Spieler fertig machen
 		PlayerUtil.readyPlayer(player);

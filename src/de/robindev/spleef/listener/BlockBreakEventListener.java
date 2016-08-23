@@ -16,8 +16,8 @@ public class BlockBreakEventListener implements Listener {
 	
 	@EventHandler
 	public void onBlockBreak(BlockBreakEvent event) {
-		// Wenn das GameState nicht GameState.INGAME ist, "BlockBreakEvent" cancellen und returnen
-		if (!Spleef.state.equals(GameState.INGAME)) {
+		// Wenn das GameState nicht GameState.INGAME ODER der Spieler tot ist, "BlockBreakEvent" cancellen und returnen
+		if (!Spleef.state.equals(GameState.INGAME) || Spleef.playerData.get(event.getPlayer().getName())) {
 			event.setCancelled(true);
 			return;
 		}

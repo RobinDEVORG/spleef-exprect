@@ -24,25 +24,42 @@ public class LocationManager {
 	 */
 	public static final FileConfiguration DATA = YamlConfiguration.loadConfiguration(FILE);
 	
+	public static Location lobby;
+	public static Location map;
+	
 	/**
-	 * Gibt die Position des Spawns zurück
+	 * Updated die Location "lobby"
 	 * 
-	 * @return Die Position des Spawns
+	 * @return Die Position der Lobby
 	 */
-	public static Location getSpawn() {
+	public static Location updateLobby() {
 		
-		return new Location(Bukkit.getWorld(DATA.getString("Spawn.World")), DATA.getDouble("Spawn.X"), DATA.getDouble("Spawn.Y")
-				, DATA.getDouble("Spawn.Z"), (float) DATA.getDouble("Spawn.Yaw")
-				, (float) DATA.getDouble("Spawn.Pitch"));
+		lobby =  new Location(Bukkit.getWorld(DATA.getString("Lobby.World")), DATA.getDouble("Lobby.X"), DATA.getDouble("Lobby.Y")
+				, DATA.getDouble("Lobby.Z"), (float) DATA.getDouble("Lobby.Yaw")
+				, (float) DATA.getDouble("Lobby.Pitch"));
+		return lobby;
 	}
 	
 	/**
-	 * Schreibt die Daten der neuen Location in die Yaml-Datei
+	 * Updated die Location "map"
 	 * 
-	 * @param location Die Postion an der der Spawn gesetzt werden soll
+	 * @return Die Position der Karte
+	 */
+	public static Location updateMap() {
+		
+		map =  new Location(Bukkit.getWorld(DATA.getString("Map.World")), DATA.getDouble("Map.X"), DATA.getDouble("Map.Y")
+				, DATA.getDouble("Map.Z"), (float) DATA.getDouble("Map.Yaw")
+				, (float) DATA.getDouble("Map.Pitch"));
+		return map;
+	}
+	
+	/**
+	 * Schreibt die Daten der neuen Lobby-Location in die Yaml-Datei
+	 * 
+	 * @param location Die Postion an der die Lobby gesetzt werden soll
 	 * @return Wenn die IOException auftritt, "false", andernfallls "true"
 	 */
-	public static boolean setSpawn(Location location) {
+	public static boolean setLobby(Location location) {
 		String world = location.getWorld().getName();
 		double x = location.getX();
 		double y = location.getY();
@@ -50,15 +67,46 @@ public class LocationManager {
 		float yaw = location.getYaw();
 		float pitch = location.getPitch();
 		
-		DATA.set("Spawn.World", world);
-		DATA.set("Spawn.X", x);
-		DATA.set("Spawn.Y", y);
-		DATA.set("Spawn.Z", z);
-		DATA.set("Spawn.Yaw", yaw);
-		DATA.set("Spawn.Pitch", pitch);
+		DATA.set("Lobby.World", world);
+		DATA.set("Lobby.X", x);
+		DATA.set("Lobby.Y", y);
+		DATA.set("Lobby.Z", z);
+		DATA.set("Lobby.Yaw", yaw);
+		DATA.set("Lobby.Pitch", pitch);
 		
 		try {
 			DATA.save(FILE);
+			updateLobby();
+			return true;
+		} catch (IOException e) {
+			return false;
+		}
+	}
+	
+	/**
+	 * Schreibt die Daten der neuen Map-Location in die Yaml-Datei
+	 * 
+	 * @param location Die Postion an der die Map gesetzt werden soll
+	 * @return Wenn die IOException auftritt, "false", andernfallls "true"
+	 */
+	public static boolean setMap(Location location) {
+		String world = location.getWorld().getName();
+		double x = location.getX();
+		double y = location.getY();
+		double z = location.getZ();
+		float yaw = location.getYaw();
+		float pitch = location.getPitch();
+		
+		DATA.set("Map.World", world);
+		DATA.set("Map.X", x);
+		DATA.set("Map.Y", y);
+		DATA.set("Map.Z", z);
+		DATA.set("Map.Yaw", yaw);
+		DATA.set("Map.Pitch", pitch);
+		
+		try {
+			DATA.save(FILE);
+			updateMap();
 			return true;
 		} catch (IOException e) {
 			return false;
