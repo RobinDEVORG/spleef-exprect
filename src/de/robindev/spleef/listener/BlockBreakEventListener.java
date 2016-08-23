@@ -17,8 +17,8 @@ import de.robindev.spleef.Spleef;
 /**
  * @author RobinDEV
  * 
- *         Klasse, um den Blockabbau zu verhindern, sollte das Spiel nicht
- *         "Ingame" sein
+ * Klasse, um den Blockabbau zu verhindern, sollte das Spiel nicht
+ * "Ingame" sein oder der Spieler nicht im GameMode 1 sein
  */
 public class BlockBreakEventListener implements Listener {
 

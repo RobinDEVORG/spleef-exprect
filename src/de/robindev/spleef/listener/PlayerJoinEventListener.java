@@ -66,6 +66,10 @@ public class PlayerJoinEventListener implements Listener {
 		// Allen Spielern auf dem Server das Scoreboard "scoreboard" der Klasse
 		// "ScoreboardManager" setzen
 		Bukkit.getOnlinePlayers().stream().forEach(all -> {
+			if (!ScoreboardManager.playersTeam.hasEntry(all.getName())) {
+				ScoreboardManager.playersTeam.addEntry(all.getName());
+			}
+			
 			all.setScoreboard(ScoreboardManager.scoreboard);
 		});
 

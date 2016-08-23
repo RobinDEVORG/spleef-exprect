@@ -27,6 +27,9 @@ public class PlayerDeathEventListener implements Listener {
 		// Spieler auslesen
 		Player player = event.getEntity();
 		
+		// Deathmessage setzen
+		event.setDeathMessage(Spleef.PREFIX + "§a" + player.getName() + " §bist gestorben.");
+		
 		// Drops löschen
 		event.getDrops().clear();
 		
@@ -39,8 +42,5 @@ public class PlayerDeathEventListener implements Listener {
 		if (Spleef.playerData.size() == 1) {
 			GameStateManager.setup(main, GameState.FINISHED);
 		}
-		
-		// Deathmessage setzen
-		event.setDeathMessage(Spleef.PREFIX + "§a" + player.getName() + " §bist gestorben.");
 	}
 }

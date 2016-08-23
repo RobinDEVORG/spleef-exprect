@@ -23,6 +23,7 @@ import de.robindev.spleef.listener.PlayerMoveEventListener;
 import de.robindev.spleef.listener.PlayerPickupItemEventListener;
 import de.robindev.spleef.listener.PlayerQuitEventListener;
 import de.robindev.spleef.listener.PlayerRespawnEventListener;
+import de.robindev.spleef.manager.GameStateManager;
 import de.robindev.spleef.manager.LocationManager;
 import de.robindev.spleef.manager.ScoreboardManager;
 
@@ -74,7 +75,7 @@ public class Spleef extends JavaPlugin {
 		ScoreboardManager.init();
 		
 		// Am Anfang ist das Spiel natürlich in der "Warte-Phase"
-		state = GameState.WAITING;
+		GameStateManager.setup(this, GameState.WAITING);
 		
 		// taskID setzen
 		taskID = 0;

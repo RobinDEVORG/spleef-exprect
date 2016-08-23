@@ -20,8 +20,7 @@ public class GameStateManager {
 		// Hier habe ich einen "switch-case-block" gewählt, der übersichts halber
 		switch (state) {
 		case WAITING:
-			// Mal schauen was hier hin kommt
-			
+			Spleef.state = GameState.WAITING;
 			// Hier aus dem "switch-case-block" raus gehen
 			break;
 
@@ -71,7 +70,18 @@ public class GameStateManager {
 			// Map resetten
 			Spleef.destroyedBlocks.stream().forEach(block -> {
 				block.getWorld().getBlockAt(block.getLocation()).setType(block.getType());
+				System.out.println(Spleef.destroyedBlocks.size());
 			});
+			
+			Spleef.destroyedBlocks.clear();
+			
+			Bukkit.getOnlinePlayers().stream().forEach(player -> {
+				player.kickPlayer("§cDas Spiel ist vorbei.");
+			});
+			
+			Spleef.playerData.clear();
+			
+			setup(main, GameState.WAITING);
 			
 			// Hier aus dem "switch-case-block" raus gehen
 			break;
