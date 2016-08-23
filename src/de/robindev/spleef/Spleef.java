@@ -1,10 +1,13 @@
 package de.robindev.spleef;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.bukkit.Bukkit;
+import org.bukkit.block.Block;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import de.robindev.spleef.commands.SetspawnCommand;
@@ -28,6 +31,7 @@ public class Spleef extends JavaPlugin {
 	public static final String NO_PERM = PREFIX + "§cFür diese Funktion hast du keine Rechte.";
 	
 	public static final Map<String, Boolean> playerData = new HashMap<>();
+	public static final List<Block> destroyedBlocks = new ArrayList<>();
 	
 	public static int currentTick;
 	public static int taskID;

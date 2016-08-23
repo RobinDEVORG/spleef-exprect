@@ -29,6 +29,8 @@ public class PlayerJoinEventListener implements Listener {
 	public void onPlayerJoin(PlayerJoinEvent event) {
 		Player player = event.getPlayer();
 		
+		Spleef.playerData.put(player.getName(), false);
+		
 		ScoreboardManager.playersTeam.addEntry(player.getName());
 		
 		Bukkit.getOnlinePlayers().stream().forEach(all -> {
