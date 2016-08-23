@@ -64,7 +64,14 @@ public class GameStateManager {
 			break;
 
 		case FINISHED:
-			// Mal schauen was hier hin kommt
+			
+			// Nachricht broadcasten, dass das Spiel zu ende ist. Am Ende ist nur einer in der playerData noch drin, somit ergibt "get(0)" den Gewinner
+			Bukkit.broadcastMessage(Spleef.PREFIX + "§a" + Spleef.playerData.get(0) + " §bhat das Spiel gewonnen");
+			
+			// Map resetten
+			Spleef.destroyedBlocks.stream().forEach(block -> {
+				block.getWorld().getBlockAt(block.getLocation()).setType(block.getType());
+			});
 			
 			// Hier aus dem "switch-case-block" raus gehen
 			break;

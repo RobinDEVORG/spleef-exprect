@@ -2,9 +2,7 @@ package de.robindev.spleef;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.bukkit.Bukkit;
 import org.bukkit.block.Block;
@@ -46,9 +44,9 @@ public class Spleef extends JavaPlugin {
 	public static final String NO_PERM = PREFIX + "§cFür diese Funktion hast du keine Rechte.";
 	
 	/**
-	 * Diese Map speichert einen String als Schlüssel und Boolean als Wert, um zu unterscheiden ob jemand Spectator ist oder nicht.
+	 * Diese Liste speichert die Spieler, die NICHT tot sind
 	 */
-	public static final Map<String, Boolean> playerData = new HashMap<>();
+	public static final List<String> playerData = new ArrayList<>();
 	
 	/**
 	 * Diese Liste wird für den Map-Reset gebraucht.

@@ -5,7 +5,9 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.PlayerDeathEvent;
 
+import de.robindev.spleef.GameState;
 import de.robindev.spleef.Spleef;
+import de.robindev.spleef.manager.GameStateManager;
 
 /**
  * @author RobinDEV
@@ -14,6 +16,12 @@ import de.robindev.spleef.Spleef;
  */
 public class PlayerDeathEventListener implements Listener {
 	
+	private Spleef main;
+	
+	public PlayerDeathEventListener(Spleef main) {
+		this.main = main;
+	}
+
 	@EventHandler
 	public void onPlayerDeathEventListener(PlayerDeathEvent event) {
 		// Spieler auslesen
@@ -25,8 +33,12 @@ public class PlayerDeathEventListener implements Listener {
 		// Erfahrung auf dem Boden löschen
 		event.setDroppedExp(0);
 		
-		// In der "playerData" tot auf "true" setzen
-		Spleef.playerData.replace(player.getName(), true);
+		// Spieler aus den Ingame-Spielern löschen
+		Spleef.playerData.remove(player.getName());
+		
+		if (Spleef.playerData.size() == 1) {
+			GameStateManager.setup(main, GameState.FINISHED);
+		}
 		
 		// Deathmessage setzen
 		event.setDeathMessage(Spleef.PREFIX + "§a" + player.getName() + " §bist gestorben.");

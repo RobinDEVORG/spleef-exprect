@@ -20,15 +20,19 @@ import net.minecraft.server.v1_8_R3.PacketPlayOutChat;
 /**
  * @author RobinDEV
  * 
- * Klasse, um dem beigetretenen Spieler die "Willkommens-ActionBAR" zu senden, den Spieler in der "playerData"
- * zu registrieren, dem Scoreboard-Team "playersTeam" einen Eintrag hinzuzufügen, den Spieler fertig für das Spiel
- * zu machen, allen Spielern auf dem Server das Scoreboard "scoreboard" der Klasse "ScoreboardManager" 
- * zu setzen, die "Joinmessage" zu verändern und den Starcountdown zu starten und zu verwalten
+ * Klasse, um dem beigetretenen Spieler die "Willkommens-ActionBAR" zu
+ * senden, den Spieler in der "playerData" zu registrieren, dem
+ * Scoreboard-Team "playersTeam" einen Eintrag hinzuzufügen, den Spieler
+ * fertig für das Spiel zu machen, allen Spielern auf dem Server das
+ * Scoreboard "scoreboard" der Klasse "ScoreboardManager" zu setzen, die
+ * "Joinmessage" zu verändern und den Starcountdown zu starten und zu
+ * verwalten
  * 
- * Besitzt außerdem noch eine Funktion, um einen "IChatBaseComponent" aus einem String zu bekommen
+ * Besitzt außerdem noch eine Funktion, um einen "IChatBaseComponent"
+ * aus einem String zu bekommen
  */
 public class PlayerJoinEventListener implements Listener {
-	
+
 	/**
 	 * Instanz der Hauptklasse
 	 */
@@ -37,7 +41,8 @@ public class PlayerJoinEventListener implements Listener {
 	/**
 	 * Einziger Konstruktor, erwartet eine Instanz der Hautplasse "Spleef"
 	 * 
-	 * @param main Instanz der Hauptklasse
+	 * @param main
+	 *            Instanz der Hauptklasse
 	 */
 	public PlayerJoinEventListener(Spleef main) {
 		// Instanz dieser Klasse auf die Übergebene im Konstruktor setzen
@@ -48,29 +53,32 @@ public class PlayerJoinEventListener implements Listener {
 	public void onPlayerJoin(PlayerJoinEvent event) {
 		// Beigetretenen Spieler auslesen
 		Player player = event.getPlayer();
-		
-		// Spieler in der "playerData" registrieren
-		Spleef.playerData.put(player.getName(), false);
-		
-		// Spieler im Team "playersTeam" registrieren, um die Tabliste farbig zu gestalten
+
+		// Wenn das Spiel wartet -> Spieler in der "playerData" registrieren
+		if (Spleef.state.equals(GameState.WAITING)) {
+			Spleef.playerData.add(player.getName());
+		}
+
+		// Spieler im Team "playersTeam" registrieren, um die Tabliste farbig zu
+		// gestalten
 		ScoreboardManager.playersTeam.addEntry(player.getName());
-		
-		// Allen Spielern auf dem Server das Scoreboard "scoreboard" der Klasse "ScoreboardManager" setzen
+
+		// Allen Spielern auf dem Server das Scoreboard "scoreboard" der Klasse
+		// "ScoreboardManager" setzen
 		Bukkit.getOnlinePlayers().stream().forEach(all -> {
 			all.setScoreboard(ScoreboardManager.scoreboard);
 		});
-		
+
 		// ActionBAR senden
-		PacketPlayOutChat packetChat = new PacketPlayOutChat(getIChatBaseComponent("§aDu §7bist der §e" 
-	+ Bukkit.getOnlinePlayers().size() + ". §7von §e" + Bukkit.getServer().getMaxPlayers() + " §7Spielern" ), (byte) 2);
+		PacketPlayOutChat packetChat = new PacketPlayOutChat(getIChatBaseComponent("§aDu §7bist der §e" + Bukkit.getOnlinePlayers().size() + ". §7von §e" + Bukkit.getServer().getMaxPlayers() + " §7Spielern"), (byte) 2);
 		((CraftPlayer) player).getHandle().playerConnection.sendPacket(packetChat);
-		
+
 		// Spieler zum Spawn teleportieren
 		player.teleport(LocationManager.lobby);
-		
+
 		// Spieler fertig machen
 		PlayerUtil.readyPlayer(player);
-		
+
 		// Ist das Spiel "am warten"?
 		if (Spleef.state.equals(GameState.WAITING)) {
 			// Falls ja, dann veränder die Joinmessage
@@ -79,37 +87,42 @@ public class PlayerJoinEventListener implements Listener {
 			// Falls nein, lösche sie komplett
 			event.setJoinMessage(null);
 		}
-		
+
 		// Ist das Spiel weder ingame, noch zuende?
 		if (!Spleef.state.equals(GameState.INGAME) || !Spleef.state.equals(GameState.FINISHED)) {
 			// Sind 2 Spieler online?
 			if (Bukkit.getOnlinePlayers().size() == 2) {
-				// Falls ja, setze den Integer "taskID" der Klasse Spleef auf den Rückgabewert der Methode "scheduleSyncRepeatingTask"
+				// Falls ja, setze den Integer "taskID" der Klasse Spleef auf
+				// den Rückgabewert der Methode "scheduleSyncRepeatingTask"
 				Spleef.taskID = Bukkit.getScheduler().scheduleSyncRepeatingTask(main, () -> {
-					
+
 					// Ist die aktuelle Sekunde noch nicht 0?
 					if (Spleef.currentTick != 0) {
-						
+
 						// Ist die Spieleranzahl kleiner als 2?
 						if (Bukkit.getOnlinePlayers().size() < 2) {
-							// Falls ja, breche ab und sende an alle Spieler ein Nachricht, dass der Start abgebrochen wurde
+							// Falls ja, breche ab und sende an alle Spieler ein
+							// Nachricht, dass der Start abgebrochen wurde
 							Bukkit.getScheduler().cancelTask(Spleef.taskID);
 							Bukkit.broadcastMessage(Spleef.PREFIX + "§bStart abgebrochen. Mindestens §a2 §bSpieler erforderlich.");
 							// Sekunden zurücksetzen
 							Spleef.currentTick = 60;
 						}
-						
-						// Sind die Sekunden auf 50, 40, 30, 20 oder kleiner als 11?
+
+						// Sind die Sekunden auf 50, 40, 30, 20 oder kleiner als
+						// 11?
 						if (Spleef.currentTick == 50 || Spleef.currentTick == 40 || Spleef.currentTick == 30 || Spleef.currentTick == 20 || Spleef.currentTick <= 10) {
-							// Falls ja, broadcaste eine Nachricht mit der aktuellen Zeit
+							// Falls ja, broadcaste eine Nachricht mit der
+							// aktuellen Zeit
 							Bukkit.broadcastMessage(Spleef.PREFIX + "§bDas Spiel beginnt in §a" + Spleef.currentTick + " §bSekunden");
 						}
-						
-						// Setze das Level aller Spieler auf dem Server auf die aktuelle Sekundenanzahl
+
+						// Setze das Level aller Spieler auf dem Server auf die
+						// aktuelle Sekundenanzahl
 						Bukkit.getOnlinePlayers().stream().forEach(p -> {
 							p.setLevel(Spleef.currentTick);
 						});
-						
+
 						// Inkrementiere "currentTick"
 						Spleef.currentTick--;
 					} else /* Oder ist die Aktuelle Sekunde doch 0? */ if (Spleef.currentTick == 0) {
@@ -117,13 +130,14 @@ public class PlayerJoinEventListener implements Listener {
 						Bukkit.getScheduler().cancelTask(Spleef.taskID);
 						// Sekunden zurücksetzen
 						Spleef.currentTick = 60;
-						
+
 						// Level auf 0 setzen
 						player.setLevel(0);
-						
+
 						// Ist die Spieleranzahl beim Start kleiner als 2?
 						if (Bukkit.getOnlinePlayers().size() < 2) {
-							// Falls ja, sende an alle Spieler ein Nachricht, dass das Spiel doch nicht startet
+							// Falls ja, sende an alle Spieler ein Nachricht,
+							// dass das Spiel doch nicht startet
 							Bukkit.broadcastMessage(Spleef.PREFIX + "§bStart abgebrochen. Mindestens §a2 §bSpieler erforderlich.");
 						} else {
 							// Falls nein, setze das Spiel in die "Ingame-Phase"
@@ -134,11 +148,12 @@ public class PlayerJoinEventListener implements Listener {
 			}
 		}
 	}
-	
+
 	/**
 	 * Gibt einen IChatBaseComponent zurück mit dem Text "msg"
 	 * 
-	 * @param msg Den String, den du als "IChatBaseComponent" haben willst
+	 * @param msg
+	 *            Den String, den du als "IChatBaseComponent" haben willst
 	 * @return Den fertigen "IChatBaseComponent"
 	 */
 	private IChatBaseComponent getIChatBaseComponent(String msg) {

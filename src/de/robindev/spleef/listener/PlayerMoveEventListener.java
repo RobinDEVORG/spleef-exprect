@@ -25,8 +25,8 @@ public class PlayerMoveEventListener implements Listener {
 
 			// Null-Check für den Spiel
 			if (player != null) {
-				// Ist der Spieler schon Spectator?
-				if (!Spleef.playerData.get(player.getName())) {
+				// Ist der Spieler noch nicht tot?
+				if (Spleef.playerData.contains(player.getName())) {
 					// Ist der Y-Wert vom Spieler + 5 kleiner als der Y-Wet vom
 					// Spawn?
 					if (player.getLocation().getY() + 5 < LocationManager.map.getY()) {
