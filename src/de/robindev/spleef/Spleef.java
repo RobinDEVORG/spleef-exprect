@@ -52,7 +52,7 @@ public class Spleef extends JavaPlugin {
 	/**
 	 * Diese Liste wird für den Map-Reset gebraucht.
 	 */
-	public static final List<Block> destroyedBlocks = new ArrayList<>();
+	public static final List<String> blockChanges = new ArrayList<>();
 	
 	/**
 	 * Für den Start countdown. Von "currentTick" wird jede Sekunde 1 abgezogen

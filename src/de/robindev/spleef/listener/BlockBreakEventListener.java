@@ -53,7 +53,11 @@ public class BlockBreakEventListener implements Listener {
 		if (!block.getType().equals(Material.SNOW_BLOCK)) {
 			event.setCancelled(true);
 		} else if (block.getType().equals(Material.SNOW_BLOCK)) {
-			Spleef.destroyedBlocks.add(block);
+			@SuppressWarnings("deprecation")
+			String change = block.getWorld().getName() + ";" + block.getX() + ";" + block.getY() + ";" + block.getZ() 
+			+ ";" + block.getTypeId() + ";" + block.getData();
+			
+			Spleef.blockChanges.add(change);
 			player.getInventory().addItem(snowBall);
 		}
 	}
