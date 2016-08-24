@@ -1,6 +1,7 @@
 package de.robindev.spleef.commands;
 
 import org.bukkit.command.Command;
+import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 
 import de.robindev.spleef.Spleef;
@@ -25,6 +26,8 @@ public class SetspawnCommand extends AbstractPlayerCommand {
 					if (LocationManager.setMap(player.getLocation())) {
 						player.sendMessage(Spleef.PREFIX + "§bDer Spawn der Map wurde erfolgreich an deiner Position gesetzt.");
 					} else {
+						CraftPlayer cp = (CraftPlayer) player;
+						cp.getHandle();
 						player.sendMessage(Spleef.PREFIX + "§cWährend des setzens des Spawns der Map an deiner Position ist ein Fehler aufgetreten. Siehe Server-Konsole");
 					}
 				} else if (args[0].equalsIgnoreCase("lobby")) {

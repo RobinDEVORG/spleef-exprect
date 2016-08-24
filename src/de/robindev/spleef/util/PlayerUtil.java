@@ -4,60 +4,57 @@ import java.util.Arrays;
 
 import org.bukkit.GameMode;
 import org.bukkit.Material;
+import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.BookMeta;
+import org.bukkit.inventory.meta.ItemMeta;
 
-/**
- * @author RobinDEV
- * 
- * Stellt eine Methode bereit, um den übergegenen Spieler fertig für das Spiel zu machen
- */
+import de.robindev.spleef.listener.PlayerJoinEventListener;
+import net.minecraft.server.v1_8_R3.PacketPlayOutChat;
+
 public class PlayerUtil {
 	
-	/**
-	 * Macht den übergebenen Spieler fertig für das Spiel
-	 * 
-	 * @param player Der Spieler, der fertig für das Spiel gemacht werden soll
-	 */
 	public static void readyPlayer(Player player) {
-		// Leben auffüllen
 		player.setHealth(20.0D);
-		// Maximales Leben auf den Standardwert setzen
 		player.setMaxHealth(20.0D);
-		// Hunger aufüllen
 		player.setFoodLevel(20);
-		// Level für den Countdown auf 60 setzen
+		
 		player.setLevel(60);
-		// Erfahrungspunkte zurücksetzen
 		player.setExp(0);
-		// Verbrennug beenden
 		player.setFireTicks(0);
-		// Spielmodus auf "Überleben" setzen
 		player.setGameMode(GameMode.SURVIVAL);
-		// Inventar leeren
+		
 		player.getInventory().clear();
-		// Rüstung entfernen
 		player.getInventory().setArmorContents(null);
 		
-		// Anleitungs-Buch erstellen
 		ItemStack howTo = new ItemStack(Material.WRITTEN_BOOK);
-		// Meta vom Buch holen und in eine "BookMeta" casten (Casten -> Typumwandlung)
 		BookMeta howToMeta = (BookMeta) howTo.getItemMeta();
-		
-		// Autor auf den Netzwerknamen setzen
 		howToMeta.setAuthor("§aExprect");
-		// Die Erklärung hinzufügen
-		howToMeta.addPage("§7In §eSpleef §7geht es darum, seinem Gegner den Block unter seinen Füßen wegzubauen. "
-				+ "Dafür erhälst du eine §eDiamantschaufel §7mit §eEffizient III§7. Der letzte Überlebende gewinnt.");
-		// Titel des Buches setzen
-		howToMeta.setTitle("§bWas ist §eSpleef§e?");
-		// Lore setzen mit Arrays#asList(String... args) (Geht natürlich auch mit einer normal "Stringlist")
+		howToMeta.addPage("§7In §3Spleef §7geht es darum, seinem Gegner den Block unter seinen Füßen wegzubauen. "
+				+ "Dafür erhälst du eine §3Diamantschaufel §7verzaubert mit §3Effizient III§7. Der letzte Überlebende gewinnt.");
+		howToMeta.setTitle("§bWas ist §eSpleef§b?");
 		howToMeta.setLore(Arrays.asList("§bDieses Buch erklärt dir, was §eSpleef §beigentlich ist."));
-		// ItemMeta wieder setzen
 		howTo.setItemMeta(howToMeta);
-		
-		//Anleitung ins Inventar auf den ersten Slot legen (Der Computer fängt bei 0 an zu zählen) 
 		player.getInventory().setItem(0, howTo);
+	}
+	
+	public static void readySpectator(Player player) {
+		PacketPlayOutChat packetChat = new PacketPlayOutChat(PlayerJoinEventListener.getIChatBaseComponent("§aDu §7bist Spectator"));
+		((CraftPlayer) player).getHandle().playerConnection.sendPacket(packetChat);
+		
+		player.setAllowFlight(true);
+		player.setFlying(true);
+		
+		player.getInventory().clear();
+		
+		ItemStack players = new ItemStack(Material.COMPASS);
+		ItemMeta playersMeta = players.getItemMeta();
+		playersMeta.setDisplayName("§bSpieler");
+		playersMeta.addItemFlags(ItemFlag.values());
+		players.setItemMeta(playersMeta);
+		
+		player.getInventory().setItem(0, players);
 	}
 }
