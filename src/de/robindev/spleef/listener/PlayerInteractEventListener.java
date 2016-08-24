@@ -16,7 +16,7 @@ import org.bukkit.inventory.meta.SkullMeta;
 
 public class PlayerInteractEventListener implements Listener {
 	
-	List<Player> players = new ArrayList<>(Bukkit.getOnlinePlayers());
+	List<Player> players;
 	
 	@EventHandler
 	public void onPlayerInteract(PlayerInteractEvent event) {
@@ -25,6 +25,8 @@ public class PlayerInteractEventListener implements Listener {
 		if (event.getItem().getItemMeta().getDisplayName().equals("§bSpieler")) {
 			Inventory inv = Bukkit.createInventory(null, 18, "§bSpieler");
 			
+			players = new ArrayList<>(Bukkit.getOnlinePlayers());
+
 			for (int i = 0; i < Bukkit.getOnlinePlayers().size(); i++) {
 				ItemStack skull = new ItemStack(Material.SKULL_ITEM);
 				SkullMeta skullMeta = (SkullMeta) skull.getItemMeta();
