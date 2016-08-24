@@ -2,6 +2,7 @@ package de.robindev.spleef.util;
 
 import java.util.Arrays;
 
+import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
@@ -11,6 +12,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.BookMeta;
 import org.bukkit.inventory.meta.ItemMeta;
 
+import de.robindev.spleef.Spleef;
 import de.robindev.spleef.listener.PlayerJoinEventListener;
 import net.minecraft.server.v1_8_R3.PacketPlayOutChat;
 
@@ -41,8 +43,12 @@ public class PlayerUtil {
 	}
 	
 	public static void readySpectator(Player player) {
-		PacketPlayOutChat packetChat = new PacketPlayOutChat(PlayerJoinEventListener.getIChatBaseComponent("§aDu §7bist Spectator"));
+		PacketPlayOutChat packetChat = new PacketPlayOutChat(PlayerJoinEventListener.getIChatBaseComponent("§aDu §7bist Spectator"), (byte) 2);
 		((CraftPlayer) player).getHandle().playerConnection.sendPacket(packetChat);
+		
+		Spleef.playerData.stream().forEach(name -> {
+			Bukkit.getPlayer(name).hidePlayer(player);
+		});
 		
 		player.setAllowFlight(true);
 		player.setFlying(true);
