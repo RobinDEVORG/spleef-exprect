@@ -17,6 +17,7 @@ import de.robindev.spleef.listener.FoodLevelChangeEventListener;
 import de.robindev.spleef.listener.InventoryClickEventListener;
 import de.robindev.spleef.listener.PlayerDeathEventListener;
 import de.robindev.spleef.listener.PlayerDropItemEventListener;
+import de.robindev.spleef.listener.PlayerInteractEventListener;
 import de.robindev.spleef.listener.PlayerJoinEventListener;
 import de.robindev.spleef.listener.PlayerMoveEventListener;
 import de.robindev.spleef.listener.PlayerPickupItemEventListener;
@@ -88,6 +89,7 @@ public class Spleef extends JavaPlugin {
 		getServer().getPluginManager().registerEvents(new PlayerMoveEventListener(), this);
 		getServer().getPluginManager().registerEvents(new PlayerDeathEventListener(this), this);
 		getServer().getPluginManager().registerEvents(new PlayerRespawnEventListener(), this);
+		getServer().getPluginManager().registerEvents(new PlayerInteractEventListener(), this);
 		
 		System.out.println("Spleef >> Plugin geladen!");
 	}
